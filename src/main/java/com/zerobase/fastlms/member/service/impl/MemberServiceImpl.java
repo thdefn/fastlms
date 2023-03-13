@@ -34,14 +34,15 @@ public class MemberServiceImpl implements MemberService {
 
         String uuid = UUID.randomUUID().toString();
 
-        Member member = new Member();
-        member.setUserId(parameter.getUserId());
-        member.setUserName(parameter.getUserName());
-        member.setPhoneNumber(parameter.getPhone());
-        member.setPassword(parameter.getPassword());
-        member.setRegDt(LocalDateTime.now());
-        member.setEmailAuthYn(false);
-        member.setEmailAuthKey(uuid);
+        Member member = Member.builder()
+                .userId(parameter.getUserId())
+                .userName(parameter.getUserName())
+                .phoneNumber(parameter.getPhone())
+                .password(parameter.getPassword())
+                .regDt(LocalDateTime.now())
+                .emailAuthYn(false)
+                .emailAuthKey(uuid)
+                .build();
 
         String email = parameter.getUserId();
         String subject = "fast lms 사이트 가입을 축하드립니다.";
@@ -49,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
                 "<p>아래 링크를 클릭하셔서 가입을 완료하세요.</p>"
                 +"<div><a href='http://localhost:8080/member/email-auth?id="+uuid+"'>가입 완료</a></div>";
         mailComponent.sendMail(email, subject, text);
+
         memberRepository.save(member); // 기존에 있는 데이터는 자동 업데이트
 
         return true;
