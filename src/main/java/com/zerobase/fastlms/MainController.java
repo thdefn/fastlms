@@ -9,6 +9,8 @@ package com.zerobase.fastlms;
 // 후보군? 클래스, 속성, 메소드
 // http://localhost:8080/ 이 주소에 대해 메소드가 맵핑해준다
 
+import com.zerobase.fastlms.component.MailComponent;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,10 +20,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 //@RestController //주소를 매핑하는 특정한 클래스
+@RequiredArgsConstructor
 @Controller
 public class MainController {
+    private final MailComponent mailComponent;
     @RequestMapping("/")
     public String index() {
+        String email="thdefn@naver.com";
+        String subject="안녕하세요~~";
+        String text = "<p>안녕하세요.</p><p>반갑습니다</p>";
+        mailComponent.sendMail(email, subject, text);
         return "index";
     }
 
