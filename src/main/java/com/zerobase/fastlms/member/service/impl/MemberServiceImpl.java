@@ -4,6 +4,7 @@ import com.zerobase.fastlms.component.MailComponent;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
 import com.zerobase.fastlms.member.model.MemberInput;
+import com.zerobase.fastlms.member.model.ResetPasswordInput;
 import com.zerobase.fastlms.member.repository.MemberRepository;
 import com.zerobase.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -76,6 +77,31 @@ public class MemberServiceImpl implements MemberService {
         member.setEmailAuthDt(LocalDateTime.now());
 
         memberRepository.save(member);
+
+        return true;
+    }
+
+    @Override
+    public boolean sendResetPassword(ResetPasswordInput parameter) {
+        Optional<Member> optionalMember = memberRepository
+                .findByUserIdAndAndUserName(parameter.getUserId(), parameter.getUserName());
+
+        if(!optionalMember.isPresent()){
+            throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다");
+        }
+
+        String uuid = UUID.randomUUID().toString();
+
+        Member member = optionalMember.get();
+        member.setResetPasswordKey(uuid);
+        member.setResetPasswordLimitDt(LocalDateTime.now().plusDays(1));
+
+        String email = parameter.getUserId();
+        String subject = "[fast lms] 비밀번호 초기화 메일입니다.";
+        String text = "<p>fastlms 비밀번호 초기화 메일입니다.</p>"+
+                "<p>아래 링크를 클릭하셔서 비밀번호를 초기화 해주세요.</p>"
+                +"<div><a href='http://localhost:8080/member/reset/password?id="+uuid+"'>비밀번호 초기화 링크</a></div>";
+        mailComponent.sendMail(email, subject, text);
 
         return true;
     }
