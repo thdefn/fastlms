@@ -1,4 +1,4 @@
-package com.zerobase.fastlms;
+package com.zerobase.fastlms.main.controller;
 
 // mainpage 클래스를 만든 목적 : 매핑하기 위해
 // 주소(논리적 주소, 인터넷 주소)와 물리적 파일(프로그래밍을 해야 하니까)
@@ -29,7 +29,7 @@ public class MainController {
         String email="thdefn@naver.com";
         String subject="안녕하세요~~";
         String text = "<p>안녕하세요.</p><p>반갑습니다</p>";
-        mailComponent.sendMail(email, subject, text);
+        // mailComponent.sendMail(email, subject, text);
         return "index";
     }
 

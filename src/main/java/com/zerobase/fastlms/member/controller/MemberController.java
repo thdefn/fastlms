@@ -14,8 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @Controller
 public class MemberController {
+    // 스프링 시큐리티에 의해 모든 페이지에 대해 로그인 이후 이용할 수 있게 설정됨
 
     private final MemberService memberService;
+
+    @GetMapping("/member/login")
+    public String login() {
+        return "member/login";
+    }
 
     @GetMapping("/member/register")
     public String register() {
@@ -44,5 +50,10 @@ public class MemberController {
         model.addAttribute("result", result);
 
         return "member/email-auth";
+    }
+
+    @GetMapping("/member/info")
+    public String memberInfo(){
+        return "member/info";
     }
 }
