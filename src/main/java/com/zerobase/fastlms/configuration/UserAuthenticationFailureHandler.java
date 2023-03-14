@@ -15,9 +15,18 @@ public class UserAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
+        String msg = "로그인에 실패하였습니다.";
+
+        // org.springframework.security.authentication.InternalAuthenticationServiceException: 이메일 활성화 이후에 로그인을 해주세요
+        if (exception instanceof Exception){ // 객체가 어떤 클래스를 상속받았는지
+            msg = exception.getMessage();
+
+        }
         setUseForward(true);
         setDefaultFailureUrl("/member/login?error=true");
-        request.setAttribute("errorMessage","로그인에 실패하였습니다.");
+        request.setAttribute("errorMessage",msg);
+
+        System.out.println("로그인에 실패하였습니다.");
 
         super.onAuthenticationFailure(request, response, exception);
     }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/member/login")
+    // get post 둘 다 받을 수 있도록
+    @RequestMapping("/member/login")
     public String login() {
         return "member/login";
     }
