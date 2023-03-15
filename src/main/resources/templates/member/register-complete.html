@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<div th:replace="/fragments/layout.html::fragment-body-menu">
+</div>
 
 <div th:if="${result}">
     <h1>회원 가입 완료</h1>
@@ -16,9 +18,5 @@
     <h1>회원 가입 결과</h1>
     <p>회원가입에 실패하였습니다</p>
 </div>
-
-<div th:replace="/fragments/layout.html::fragment-body-menu">
-</div>
-
 </body>
 </html>

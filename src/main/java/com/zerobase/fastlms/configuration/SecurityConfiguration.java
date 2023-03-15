@@ -36,6 +36,7 @@ public class SecurityConfiguration {
         return http.authorizeHttpRequests()
                 .antMatchers("/", "/member/register", "/member/email-auth",
                         "/member/find/password", "/member/reset/password").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
 
                 .and()
@@ -48,6 +49,10 @@ public class SecurityConfiguration {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) // 모든 http 메서드 포함
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true) // 세션은 초기화
+
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/error/denied")
 
                 .and()
                 .build();

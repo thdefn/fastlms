@@ -66,4 +66,9 @@ public class MainController {
         writer.close();
     }
 
+    @RequestMapping("/error/denied")
+    public String errorDenied() {
+        return "error/denied";
+    }
+
 }
