@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ResetPasswordInput { //model
-    private String uuid;
-    private String password;
+public class ResetPasswordRequestInput { //model
+    private String userId;
+    private String userName;
 }
