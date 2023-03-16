@@ -1,5 +1,7 @@
 package com.zerobase.fastlms.member.service.impl;
 
+import com.zerobase.fastlms.admin.dto.MemberDto;
+import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.component.MailComponent;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
@@ -25,6 +27,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     private final MailComponent mailComponent;
+
+    private final MemberMapper memberMapper;
 
     /**
      * 회원 가입
@@ -167,9 +171,13 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    // jpa는 api가 직접 쿼리를 만들지만 mybatis는 쿼리를 임의 작성해서 실행할 수 있다
     @Override
-    public List<Member> list() {
-        return memberRepository.findAll();
+    public List<MemberDto> list() {
+        MemberDto parameter = new MemberDto();
+        List<MemberDto> list = memberMapper.selectList(parameter);
+        return list;
+        //return memberRepository.findAll();
     }
 
 

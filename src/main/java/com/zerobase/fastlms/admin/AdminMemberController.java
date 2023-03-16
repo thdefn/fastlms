@@ -1,5 +1,6 @@
 package com.zerobase.fastlms.admin;
 
+import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class AdminMemberController {
 
     @GetMapping("/admin/member/list.do") // 확장자로도 구분하기 위해 어드민은 .do로
     public String main(Model model){
-        List<Member> members = memberService.list();
+        List<MemberDto> members = memberService.list();
         model.addAttribute("list", members);
         return "admin/member/list";
     }
