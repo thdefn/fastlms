@@ -167,6 +167,11 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    @Override
+    public List<Member> list() {
+        return memberRepository.findAll();
+    }
+
 
     // 여기서 username은 이메일임
     @Override
