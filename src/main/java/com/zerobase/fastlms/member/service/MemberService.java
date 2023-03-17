@@ -43,4 +43,6 @@ public interface MemberService extends UserDetailsService {
      * 회원 상세 정보
      */
     MemberDto detail(String userId);
+
+    void loginHistory(String userIp, String userAgent, String userId);
 }

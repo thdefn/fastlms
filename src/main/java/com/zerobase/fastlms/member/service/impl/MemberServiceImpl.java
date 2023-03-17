@@ -4,10 +4,12 @@ import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.admin.model.MemberSearchParam;
 import com.zerobase.fastlms.component.MailComponent;
+import com.zerobase.fastlms.member.entity.LoginHistory;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
 import com.zerobase.fastlms.member.model.MemberInput;
 import com.zerobase.fastlms.member.model.ResetPasswordRequestInput;
+import com.zerobase.fastlms.member.repository.LoginHistoryRepository;
 import com.zerobase.fastlms.member.repository.MemberRepository;
 import com.zerobase.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,8 @@ import java.util.*;
 @Service //빈으로 등록
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+
+    private final LoginHistoryRepository loginHistoryRepository;
 
     private final MailComponent mailComponent;
 
@@ -200,6 +204,18 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return MemberDto.of(optionalMember.get());
+    }
+
+    @Override
+    public void loginHistory(String userIp, String userAgent, String userId) {
+        loginHistoryRepository.save(
+                LoginHistory.builder()
+                        .userAgent(userAgent)
+                        .userIp(userIp)
+                        .loginDt(LocalDateTime.now())
+                        .userId(userId)
+                        .build()
+        );
     }
 
 

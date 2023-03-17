@@ -1,5 +1,6 @@
 package com.zerobase.fastlms.configuration;
 
+import com.zerobase.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +12,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @RequiredArgsConstructor
 @EnableWebSecurity // 웹 시큐리티 활성화
 @Configuration // 설정 파일임
 public class SecurityConfiguration {
+
+    private final MemberService memberService;
 
     @Bean
     AuthenticationFailureHandler getFailureHandler() {
@@ -42,7 +46,9 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin()
                 .loginPage("/member/login")
-                .failureHandler(getFailureHandler()).permitAll()
+                .failureHandler(getFailureHandler())
+                .successForwardUrl("/member/login-success")
+                .permitAll()
 
                 .and()
                 .logout()
