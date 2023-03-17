@@ -83,7 +83,9 @@
         <tbody>
         <tr th:each="x:${list}">
             <td th:text="${x.seq}">1</td>
-            <td th:text="${x.userId}">abcde@gmail.com</td>
+            <td>
+                <a th:text="${x.userId}" th:href="${'detail.do?userId=' + x.userId}">bcde@gmail.com</a>
+            </td>
             <td th:text="${x.userName}">홍길동</td>
             <td th:text="${x.phoneNumber}">010-1111-1111</td>
             <td>

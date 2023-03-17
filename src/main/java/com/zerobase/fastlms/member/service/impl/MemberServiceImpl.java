@@ -191,6 +191,17 @@ public class MemberServiceImpl implements MemberService {
         //return memberRepository.findAll();
     }
 
+    @Override
+    public MemberDto detail(String userId) {
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+
+        if(!optionalMember.isPresent()){
+            return null;
+        }
+
+        return MemberDto.of(optionalMember.get());
+    }
+
 
     // 여기서 username은 이메일임
     @Override
