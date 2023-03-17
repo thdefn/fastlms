@@ -2,6 +2,7 @@ package com.zerobase.fastlms.member.service.impl;
 
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.mapper.MemberMapper;
+import com.zerobase.fastlms.admin.model.MemberSearchParam;
 import com.zerobase.fastlms.component.MailComponent;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -173,9 +175,18 @@ public class MemberServiceImpl implements MemberService {
 
     // jpa는 api가 직접 쿼리를 만들지만 mybatis는 쿼리를 임의 작성해서 실행할 수 있다
     @Override
-    public List<MemberDto> list() {
-        MemberDto parameter = new MemberDto();
+    public List<MemberDto> list(MemberSearchParam parameter) {
+        long totalCount = memberMapper.selectListCount(parameter);
         List<MemberDto> list = memberMapper.selectList(parameter);
+
+        if(!CollectionUtils.isEmpty(list)){
+            int i = 0;
+            for(MemberDto x : list){
+                x.setTotalCount(totalCount);
+                x.setSeq(totalCount - (parameter.getPageStart() + i++));
+            }
+        }
+
         return list;
         //return memberRepository.findAll();
     }

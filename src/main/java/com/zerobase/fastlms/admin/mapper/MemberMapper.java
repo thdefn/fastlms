@@ -1,6 +1,7 @@
 package com.zerobase.fastlms.admin.mapper;
 
 import com.zerobase.fastlms.admin.dto.MemberDto;
+import com.zerobase.fastlms.admin.model.MemberSearchParam;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,5 +11,6 @@ import java.util.List;
  */
 @Mapper
 public interface MemberMapper {
-    List<MemberDto> selectList(MemberDto parameter); // 매퍼 인터페이스에서 리턴되는 값을 일반적으로 파라미터로 함
+    long selectListCount(MemberSearchParam parameter);
+    List<MemberDto> selectList(MemberSearchParam parameter); // 매퍼 인터페이스에서 리턴되는 값을 일반적으로 파라미터로 함
 }
