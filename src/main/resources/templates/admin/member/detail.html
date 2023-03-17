@@ -69,6 +69,38 @@
                         <p th:text="${member.adminYn}"></p>
                     </td>
                 </tr>
+                <tr>
+                    <th>회원 상태</th>
+                    <td>
+                        <p>
+                            현재 상태: <span th:text="${member.userStatus}"></span>
+                        </p>
+                        <div>
+                            <form method="post" action="/admin/member/status.do">
+                                <input type="hidden" th:value="${member.userId}" name="userId">
+                                <select name="userStatus">
+                                    <option value="REQ">가입 승인 중</option>
+                                    <option value="ING">정상 이용 중</option>
+                                    <option value="STOP">정지 중</option>
+                                </select>
+                                <button type="submit">상태 변경</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>비밀번호 초기화</th>
+                    <td>
+                        <div>
+                            <form method="post" action="/admin/member/password.do">
+                                <input type="hidden" th:value="${member.userId}" name="userId">
+                                <input type="text" name="password"/>
+                                <button type="submit">비밀번호 초기화</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -1,8 +1,11 @@
 package com.zerobase.fastlms.member.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
@@ -37,4 +40,7 @@ public class Member {
     private LocalDateTime resetPasswordLimitDt;
 
     private boolean adminYn;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus = UserStatus.ING;
 }

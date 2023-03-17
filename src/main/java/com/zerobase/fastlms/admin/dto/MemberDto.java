@@ -30,6 +30,7 @@ public class MemberDto {
     //추가 컬럼
     long totalCount;
     long seq;
+    String userStatus;
 
     public static MemberDto of(Member member){
         return MemberDto.builder()
@@ -43,6 +44,7 @@ public class MemberDto {
                 .resetPasswordKey(member.getResetPasswordKey())
                 .resetPasswordLimitDt(member.getResetPasswordLimitDt())
                 .adminYn(member.isAdminYn())
+                .userStatus(member.getUserStatus().name())
                 .build();
     }
 }
