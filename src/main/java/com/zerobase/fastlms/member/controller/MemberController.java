@@ -31,14 +31,14 @@ public class MemberController {
     public String loginSuccess(HttpServletRequest request) {
         String targetUri = "/";
         String originalUrl = request.getSession().getAttribute("prev").toString();
-        if(originalUrl!=null){
-            targetUri = originalUrl.substring(originalUrl.indexOf("/",8));
+        if (originalUrl != null) {
+            targetUri = originalUrl.substring(originalUrl.indexOf("/", 8));
         }
         String userId = request.getParameter("username");
         String ip = RequestUtil.getClientIp(request);
         String agent = RequestUtil.getUserAgent(request);
         memberService.loginHistory(ip, agent, userId);
-        return "redirect:"+targetUri;
+        return "redirect:" + targetUri;
     }
 
     @GetMapping("/member/find/password")
