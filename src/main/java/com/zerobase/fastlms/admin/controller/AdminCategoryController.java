@@ -3,6 +3,7 @@ package com.zerobase.fastlms.admin.controller;
 import com.zerobase.fastlms.admin.dto.CategoryDto;
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.model.CategoryInput;
+import com.zerobase.fastlms.admin.model.CategoryModifyInput;
 import com.zerobase.fastlms.admin.model.MemberSearchParam;
 import com.zerobase.fastlms.admin.service.CategoryService;
 import com.zerobase.fastlms.util.PageUtil;
@@ -33,6 +34,20 @@ public class AdminCategoryController {
     public String add(Model model,
                       CategoryInput parameter){
         boolean result = categoryService.add(parameter.getCategoryName());
+        return "redirect:/admin/category/list.do";
+    }
+
+    @PostMapping("/admin/category/delete.do")
+    public String delete(Model model,
+                         CategoryModifyInput parameter){
+        boolean result = categoryService.delete(parameter.getId());
+        return "redirect:/admin/category/list.do";
+    }
+
+    @PostMapping("/admin/category/update.do")
+    public String update(Model model,
+                         CategoryModifyInput parameter){
+        boolean result = categoryService.update(parameter);
         return "redirect:/admin/category/list.do";
     }
 
