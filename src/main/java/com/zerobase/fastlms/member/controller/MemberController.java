@@ -30,8 +30,9 @@ public class MemberController {
     @RequestMapping("/member/login-success")
     public String loginSuccess(HttpServletRequest request) {
         String targetUri = "/";
-        String originalUrl = request.getSession().getAttribute("prev").toString();
-        if (originalUrl != null) {
+        Object object = request.getSession().getAttribute("prev");
+        if (object != null) {
+            String originalUrl = object.toString();
             targetUri = originalUrl.substring(originalUrl.indexOf("/", 8));
         }
         String userId = request.getParameter("username");

@@ -1,6 +1,5 @@
 package com.zerobase.fastlms.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -19,7 +18,7 @@ import java.io.IOException;
 @Component
 public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final RequestCache requestCache = new HttpSessionRequestCache();
+    private RequestCache requestCache = new HttpSessionRequestCache();
 
     public UserAuthenticationSuccessHandler() {
         super();
@@ -33,7 +32,9 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-        request.getSession().setAttribute("prev",savedRequest.getRedirectUrl());
+        if (savedRequest != null) {
+            request.getSession().setAttribute("prev", savedRequest.getRedirectUrl());
+        }
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
