@@ -1,6 +1,6 @@
 package com.zerobase.fastlms.admin.controller;
 
-import ch.qos.logback.core.pattern.SpacePadder;
+import com.zerobase.fastlms.admin.dto.MemberDetailDto;
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.model.MemberDetailParam;
 import com.zerobase.fastlms.admin.model.MemberPasswordInput;
@@ -42,7 +42,7 @@ public class AdminMemberController {
     @GetMapping("/admin/member/detail.do") // 확장자로도 구분하기 위해 어드민은 .do로
     public String detail(Model model,
                          MemberDetailParam parameter) {
-        MemberDto member = memberService.detail(parameter.getUserId());
+        MemberDetailDto member = memberService.detail(parameter.getUserId());
         model.addAttribute("member", member);
         return "admin/member/detail";
     }

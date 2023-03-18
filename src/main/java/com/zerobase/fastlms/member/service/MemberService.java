@@ -1,5 +1,6 @@
 package com.zerobase.fastlms.member.service;
 
+import com.zerobase.fastlms.admin.dto.MemberDetailDto;
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.model.MemberSearchParam;
 import com.zerobase.fastlms.member.model.MemberInput;
@@ -42,7 +43,7 @@ public interface MemberService extends UserDetailsService {
     /**
      * 회원 상세 정보
      */
-    MemberDto detail(String userId);
+    MemberDetailDto detail(String userId);
 
     void loginHistory(String userIp, String userAgent, String userId);
 

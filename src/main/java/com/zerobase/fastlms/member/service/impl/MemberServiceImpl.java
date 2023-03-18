@@ -1,5 +1,7 @@
 package com.zerobase.fastlms.member.service.impl;
 
+import com.zerobase.fastlms.admin.dto.LoginHistoryDto;
+import com.zerobase.fastlms.admin.dto.MemberDetailDto;
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.admin.model.MemberSearchParam;
@@ -200,14 +202,24 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto detail(String userId) {
+    public MemberDetailDto detail(String userId) {
         Optional<Member> optionalMember = memberRepository.findById(userId);
 
         if(!optionalMember.isPresent()){
             return null;
         }
+        int i = 0;
 
-        return MemberDto.of(optionalMember.get());
+        List<LoginHistory> histories = loginHistoryRepository.findByUserId(userId);
+        List<LoginHistoryDto> historyDtos = new ArrayList<>();
+
+        for (LoginHistory history: histories) {
+            LoginHistoryDto historyDto = LoginHistoryDto.of(history);
+            historyDto.setSeq(histories.size() - i++);
+            historyDtos.add(historyDto);
+        }
+
+        return MemberDetailDto.of(optionalMember.get(), historyDtos);
     }
 
     @Override
