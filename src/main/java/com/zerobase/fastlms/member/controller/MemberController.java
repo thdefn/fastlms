@@ -23,17 +23,22 @@ public class MemberController {
 
     // get post 둘 다 받을 수 있도록
     @RequestMapping("/member/login")
-    public String login() {
+    public String login(HttpServletRequest request) {
         return "member/login";
     }
 
     @RequestMapping("/member/login-success")
     public String loginSuccess(HttpServletRequest request) {
+        String targetUri = "/";
+        String originalUrl = request.getSession().getAttribute("prev").toString();
+        if(originalUrl!=null){
+            targetUri = originalUrl.substring(originalUrl.indexOf("/",8));
+        }
         String userId = request.getParameter("username");
         String ip = RequestUtil.getClientIp(request);
         String agent = RequestUtil.getUserAgent(request);
         memberService.loginHistory(ip, agent, userId);
-        return "redirect:/";
+        return "redirect:"+targetUri;
     }
 
     @GetMapping("/member/find/password")

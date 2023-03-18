@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @RequiredArgsConstructor
@@ -21,10 +20,9 @@ public class SecurityConfiguration {
 
     private final MemberService memberService;
 
-    @Bean
-    AuthenticationFailureHandler getFailureHandler() {
-        return new UserAuthenticationFailureHandler();
-    }
+    private final UserAuthenticationSuccessHandler successHandler;
+
+    private final UserAuthenticationFailureHandler failureHandler;
 
     @Bean
     PasswordEncoder getPasswordEncoder() {
@@ -45,8 +43,8 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin()
                 .loginPage("/member/login")
-                .failureHandler(getFailureHandler())
-                .successForwardUrl("/member/login-success")
+                .failureHandler(failureHandler)
+                .successHandler(successHandler)
                 .permitAll()
 
                 .and()

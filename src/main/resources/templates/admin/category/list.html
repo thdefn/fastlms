@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 화면</title>
+</head>
+<body>
+<h1>관리자 회원 관리</h1>
+<div th:replace="/fragments/layout.html::fragment-admin-body-menu"></div>
+
+<div class="list">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>카테고리명</th>
+            <th>순서</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <div class="pager" th:utext="${pager}">
+    </div>
+</div>
+</body>
+</html>
