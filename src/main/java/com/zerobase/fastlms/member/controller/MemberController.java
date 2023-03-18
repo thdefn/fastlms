@@ -35,7 +35,7 @@ public class MemberController {
             String originalUrl = object.toString();
             targetUri = originalUrl.substring(originalUrl.indexOf("/", 8));
         }
-        String userId = request.getParameter("username");
+        String userId = request.getSession().getAttribute("username").toString();
         String ip = RequestUtil.getClientIp(request);
         String agent = RequestUtil.getUserAgent(request);
         memberService.loginHistory(ip, agent, userId);

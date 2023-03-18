@@ -30,6 +30,7 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
+        request.getSession().setAttribute("username",request.getParameter("username"));
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
         if (savedRequest != null) {
