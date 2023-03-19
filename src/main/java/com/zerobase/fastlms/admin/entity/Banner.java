@@ -2,10 +2,7 @@ package com.zerobase.fastlms.admin.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Setter
@@ -25,6 +22,7 @@ public class Banner {
 
     String url;
 
+    @Enumerated(EnumType.STRING)
     OpenType openType;
 
     int sortValue;

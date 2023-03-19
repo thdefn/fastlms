@@ -35,47 +35,64 @@
 
 <div class="list">
         <table>
-            <form method="post" action="/admin/banner/update.do" id="submit" >
+            <form method="post" action="/admin/banner/update.do" id="submit" enctype="multipart/form-data">
+                <input type="hidden" th:value="${banner.id}" name="bannerId">
                 <tbody>
                 <tr>
                     <th>배너명</th>
                     <td>
-                        <input type="text" name="name" required>
+                        <input th:value="${banner.bannerName}" type="text" name="name" required>
                     </td>
                 </tr>
                 <tr>
-                    <th>배너 파일</th>
+                    <th>배너 이미지 변경하기</th>
                     <td>
-                        <input class="file" type="file" name="image" accept="image/*" required>
+                        <input class="file" type="file" name="image" accept="image/*">
                     </td>
                 </tr>
                 <tr>
                     <th>링크 주소</th>
                     <td>
-                        <input type="text" name="link" required>
+                        <input th:value="${banner.url}" type="url" name="link" required>
                     </td>
                 </tr>
                 <tr>
                     <th>오픈 방법</th>
                     <td>
-                        <select name="openType" required>
-                            <option value="none">오픈 방법 선택</option>
-                            <option value="NEW">새 창에서 이동</option>
-                            <option value="CURRENT">현재 창에서 이동</option>
-                        </select>
+                        <div th:if="${banner.openType.toString().equals('NEW')}">
+                            <select name="openType" required>
+                                <option value="none">오픈 방법 선택</option>
+                                <option value="NEW" selected>새 창에서 이동</option>
+                                <option value="CURRENT">현재 창에서 이동</option>
+                            </select>
+                        </div>
+
+                        <div th:if="${banner.openType.toString().equals('CURRENT')}">
+                            <select name="openType" required>
+                                <option value="none">오픈 방법 선택</option>
+                                <option value="NEW">새 창에서 이동</option>
+                                <option value="CURRENT" selected>현재 창에서 이동</option>
+                            </select>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <th>정렬 순서</th>
                     <td>
-                        <input type="text" name="seq" required>
+                        <input type="text" th:value="${banner.sortValue}" name="seq" required>
                     </td>
                 </tr>
                 <tr>
                     <th>공개 여부</th>
                     <td>
-                        <input type="checkbox" name="openYn" value="true" required>
-                        <label>공개</label>
+                        <div th:if="${banner.openYn eq true}">
+                            <input type="checkbox" name="openYn" value="true" checked required>
+                            <label>공개</label>
+                        </div>
+                        <div th:if="${banner.openYn eq false}">
+                            <input type="checkbox" name="openYn" value="true" required>
+                            <label>공개</label>
+                        </div>
                     </td>
                 </tr>
                 </form>

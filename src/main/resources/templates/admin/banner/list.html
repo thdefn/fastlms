@@ -47,6 +47,16 @@
                 checkbox.checked = selectAll.checked;
             })
         }
+
+        function submit() {
+            const selectedElements = document.querySelectorAll('input[name="delete"]:checked');
+            if(selectedElements.length < 1){
+                alert("선택된 삭제 항목이 없습니다.");
+                return false;
+            }
+            document.getElementById('submit').submit();
+        }
+
     </script>
     <div th:replace="/fragments/layout.html::fragment-admin-body-menu"></div>
 </head>
@@ -55,7 +65,7 @@
 <div class="manage">
     <a href="/admin/banner/add.do">배너 등록</a>
     &nbsp;
-    <a href="/admin/banner/delete.do">선택 삭제</a>
+    <a href="#" onclick="return submit()">선택 삭제</a>
     <p class="total-count">전체 <span th:text="${totalCount}"></span>개</p>
 </div>
 
@@ -73,19 +83,21 @@
         </tr>
         </thead>
         <tbody>
+        <form method="post" id="submit" action="/admin/banner/delete.do">
             <tr th:each="x:${list}">
                 <td>
-                    <input type="checkbox" th:id="${x.id}" name="delete" value="true">
+                    <input type="checkbox" th:value="${x.id}" name="delete">
                 </td>
                 <td th:text="${x.id}">1</td>
                 <td>
-                    <a th:text="${x.bannerName}" th:href="${'update.do?bannerId=' + x.id}">메인배너1</a>
+                    <a th:text="${x.bannerName}" th:href="${'detail.do?bannerId=' + x.id}">메인배너1</a>
                 </td>
                 <td>
                     <p><img th:src="${'/resources/assets/' + x.imagePath}" width="150" height="150"/></p>
                 </td>
                 <td th:text="${x.regDt}">2021-12-12</td>
             </tr>
+        </form>
         </tbody>
     </table>
 </div>

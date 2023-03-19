@@ -3,6 +3,7 @@ package com.zerobase.fastlms.admin.controller;
 import com.zerobase.fastlms.admin.dto.BannerDto;
 import com.zerobase.fastlms.admin.dto.BannerListDto;
 import com.zerobase.fastlms.admin.model.BannerInput;
+import com.zerobase.fastlms.admin.model.BannerParam;
 import com.zerobase.fastlms.admin.service.BannerService;
 import com.zerobase.fastlms.util.Constant;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,14 +47,31 @@ public class AdminBannerController {
     }
 
     @PostMapping("/admin/banner/delete.do")
-    public String delete(Model model) {
-        return "redirect:/admin/category/list.do";
+    public String delete(Model model,
+                         @RequestParam List<String> delete) {
+        bannerService.delete(delete);
+        return "redirect:/admin/banner/list.do";
     }
 
-    @PostMapping("/admin/banner/detail.do")
-    public String update(Model model,
-                         BannerInput parameter) {
-        return "redirect:/admin/category/detail.do";
+    @GetMapping("/admin/banner/detail.do")
+    public String detail(Model model,
+                         BannerParam parameter) {
+        BannerDto dto = bannerService.detail(parameter.getBannerId());
+        if(dto == null){
+            return "redirect:/admin/banner/list.do";
+        }
+
+        model.addAttribute("banner",dto);
+
+        return "admin/banner/detail";
+    }
+
+    @PostMapping("/admin/banner/update.do")
+    public String update(Model model, HttpServletRequest request,
+                         BannerInput parameter, MultipartFile image) {
+        String folderPath = request.getSession().getServletContext().getRealPath(Constant.BANNER_IMG_PATH);
+        bannerService.update(parameter, image, folderPath);
+        return "redirect:/admin/banner/list.do";
     }
 
 

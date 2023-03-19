@@ -16,14 +16,13 @@
 <h1>메인 페이지</h1>
     <div th:replace="/fragments/layout.html::fragment-body-menu"></div>
         <div class="slider">
-        <div>
-            <a href="#"><img src="https://bxslider.com/assets/plant-bd76206132f914fc54fd28f9794f7fe346bb8b9a9d16dd5de830b93f365eea9c.jpg"/></a>
-        </div>
-        <div>
-            <a href="#"><img src="https://bxslider.com/assets/daisies-aef04136667e60d9190943f4c6cd605043e67188247ffe928500edfd29b0a158.jpg"/></a>
-        </div>
-        <div>
-            <a href="#"><img src="https://bxslider.com/assets/succulents-7b5637dbc01af703069905a7991d9e7e7d27c680fa885fe3d6c713c1f77c0f92.jpg"/></a>
+        <div th:each="x:${banners}">
+            <div th:if="${x.openType.toString().equals('NEW')}">
+                <a th:href="${x.url}" rel ="noreferrer" target="_blank"><img th:src="${'/resources/assets/' + x.imagePath}" width="1400" height="680"/></a>
+            </div>
+            <div th:if="${x.openType.toString().equals('CURRENT')}">
+                <a th:href="${x.url}"><img th:src="${'/resources/assets/' + x.imagePath}" width="1400" height="680"/></a>
+            </div>
         </div>
     </div>
 </body>
