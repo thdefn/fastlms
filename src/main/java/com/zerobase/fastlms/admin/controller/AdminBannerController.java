@@ -3,11 +3,12 @@ package com.zerobase.fastlms.admin.controller;
 import com.zerobase.fastlms.admin.dto.BannerDto;
 import com.zerobase.fastlms.admin.dto.BannerListDto;
 import com.zerobase.fastlms.admin.model.BannerInput;
+import com.zerobase.fastlms.admin.model.BannerListParam;
 import com.zerobase.fastlms.admin.model.BannerParam;
 import com.zerobase.fastlms.admin.service.BannerService;
 import com.zerobase.fastlms.util.Constant;
+import com.zerobase.fastlms.util.PageUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +27,15 @@ public class AdminBannerController {
 
 
     @GetMapping("/admin/banner/list.do")
-    public String list(Model model) {
-        BannerListDto dto = bannerService.list();
-        model.addAttribute("list",dto.getList());
-        model.addAttribute("totalCount",dto.getTotalCount());
+    public String list(Model model,
+                       BannerListParam parameter) {
+        parameter.init();
+        System.out.println(parameter.toString());
+        BannerListDto dto = bannerService.list(parameter);
+        PageUtil pageUtil = new PageUtil(dto.getTotalCount(), parameter.getPageSize(), parameter.getPageIndex());
+        model.addAttribute("pager", pageUtil.pager());
+        model.addAttribute("list", dto.getList());
+        model.addAttribute("totalCount", dto.getTotalCount());
         return "admin/banner/list";
     }
 
@@ -57,11 +63,11 @@ public class AdminBannerController {
     public String detail(Model model,
                          BannerParam parameter) {
         BannerDto dto = bannerService.detail(parameter.getBannerId());
-        if(dto == null){
+        if (dto == null) {
             return "redirect:/admin/banner/list.do";
         }
 
-        model.addAttribute("banner",dto);
+        model.addAttribute("banner", dto);
 
         return "admin/banner/detail";
     }

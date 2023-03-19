@@ -5,10 +5,13 @@ import com.zerobase.fastlms.admin.dto.BannerListDto;
 import com.zerobase.fastlms.admin.entity.Banner;
 import com.zerobase.fastlms.admin.entity.OpenType;
 import com.zerobase.fastlms.admin.model.BannerInput;
+import com.zerobase.fastlms.admin.model.BannerListParam;
 import com.zerobase.fastlms.admin.repository.BannerRepository;
 import com.zerobase.fastlms.admin.service.BannerService;
 import com.zerobase.fastlms.util.Constant;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,10 +63,12 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public BannerListDto list() {
+    public BannerListDto list(BannerListParam parameter) {
         long totalCount = bannerRepository.count();
+        Pageable pageable = PageRequest.of(parameter.getPageStartIdx(), parameter.getPageSize());
+
         return BannerListDto.of(
-                bannerRepository.findAll()
+                bannerRepository.findBy(pageable)
                         .stream().map(BannerDto::of).collect(Collectors.toList()),
                 totalCount
         );
