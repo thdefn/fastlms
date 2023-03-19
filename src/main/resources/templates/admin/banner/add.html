@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 화면</title>
+    <style>
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .list table th, .list table td {
+            border: solid 1px #000;
+        }
+        .manage {
+            text-align: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
+    </script>
+    <script>
+        function submit() {
+            if($('select[name=openType]').val() == "none"){
+                alert("오픈 방법을 선택해주세요");
+                $('select[name=openType]').focus();
+                return false;
+            }
+            document.getElementById('submit').submit();
+        }
+    </script>
+    <div th:replace="/fragments/layout.html::fragment-admin-body-menu"></div>
+</head>
+<body>
+<h1>배너 관리 - 배너 등록</h1>
+
+<div class="list">
+        <table>
+            <form method="post" action="/admin/banner/add.do" id="submit" enctype="multipart/form-data">
+                <tbody>
+                <tr>
+                    <th>배너명</th>
+                    <td>
+                        <input type="text" name="name" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>배너 파일</th>
+                    <td>
+                        <input class="file" type="file" name="image" accept="image/*" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>링크 주소</th>
+                    <td>
+                        <input type="text" name="link" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>오픈 방법</th>
+                    <td>
+                        <select name="openType" required>
+                            <option value="none">오픈 방법 선택</option>
+                            <option value="new">새 창에서 이동</option>
+                            <option value="current">현재 창에서 이동</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>정렬 순서</th>
+                    <td>
+                        <input type="text" name="seq" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>공개 여부</th>
+                    <td>
+                        <input type="checkbox" name="openYn" value="true" required>
+                        <label>공개</label>
+                    </td>
+                </tr>
+                </form>
+            </tbody>
+        </table>
+</div>
+<br/>
+<br/>
+<div class="manage">
+    <a href="#" onclick="return submit()">배너 등록하기</a>
+    &nbsp;
+    <a href="/admin/banner/list.do">목록 이동</a>
+</div>
+
+
+</body>
+</html>

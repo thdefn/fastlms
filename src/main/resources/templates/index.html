@@ -4,9 +4,27 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".slider").bxSlider();
+    });
+</script>
 <body>
 <h1>메인 페이지</h1>
-    <div th:replace="/fragments/layout.html::fragment-body-menu">
+    <div th:replace="/fragments/layout.html::fragment-body-menu"></div>
+        <div class="slider">
+        <div>
+            <a href="#"><img src="https://bxslider.com/assets/plant-bd76206132f914fc54fd28f9794f7fe346bb8b9a9d16dd5de830b93f365eea9c.jpg"/></a>
+        </div>
+        <div>
+            <a href="#"><img src="https://bxslider.com/assets/daisies-aef04136667e60d9190943f4c6cd605043e67188247ffe928500edfd29b0a158.jpg"/></a>
+        </div>
+        <div>
+            <a href="#"><img src="https://bxslider.com/assets/succulents-7b5637dbc01af703069905a7991d9e7e7d27c680fa885fe3d6c713c1f77c0f92.jpg"/></a>
+        </div>
     </div>
 </body>
 </html>

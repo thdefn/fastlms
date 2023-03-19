@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 화면</title>
+    <style>
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .list table th, .list table td {
+            border: solid 1px #000;
+        }
+
+        .manage {
+            position: relative;
+            text-align: left;
+            bottom: 0;
+        }
+
+        .manage .total-count {
+            left: 0;
+            top: 0;
+            font-weight: bold;
+            font-size: 17px;
+            float: right;
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('form[name=deleteForm]').on('submit',function () {
+                if(!confirm(' 배너를 삭제하시겠습니까? ')){
+                    return false;
+                }
+            });
+        });
+
+        function selectAll(selectAll)  {
+            const checkboxes
+                = document.getElementsByName('delete');
+
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAll.checked;
+            })
+        }
+    </script>
+    <div th:replace="/fragments/layout.html::fragment-admin-body-menu"></div>
+</head>
+<body>
+<h1>배너 관리</h1>
+<div class="manage">
+    <a href="/admin/banner/add.do">배너 등록</a>
+    &nbsp;
+    <a href="/admin/banner/delete.do">선택 삭제</a>
+    <p class="total-count">전체 <span th:text="${totalCount}"></span>개</p>
+</div>
+
+<div class="list">
+    <table>
+        <thead>
+        <tr>
+            <th>
+                <input type="checkbox" value="selectall" onclick="selectAll(this)"/>
+            </th>
+            <th>NO</th>
+            <th>배너명</th>
+            <th>이미지</th>
+            <th>등록일</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="x:${list}">
+                <td>
+                    <input type="checkbox" th:id="${x.id}" name="delete" value="true">
+                </td>
+                <td th:text="${x.id}">1</td>
+                <td>
+                    <a th:text="${x.bannerName}" th:href="${'update.do?bannerId=' + x.id}">메인배너1</a>
+                </td>
+                <td>
+                    <p><img th:src="${'/resources/assets/' + x.imagePath}" width="150" height="150"/></p>
+                </td>
+                <td th:text="${x.regDt}">2021-12-12</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
