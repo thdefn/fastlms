@@ -17,12 +17,8 @@
     <div th:replace="/fragments/layout.html::fragment-body-menu"></div>
         <div class="slider">
         <div th:each="x:${banners}">
-            <div th:if="${x.openType.toString().equals('NEW')}">
-                <a th:href="${x.url}" rel ="noreferrer" target="_blank"><img th:src="${'/resources/assets/' + x.imagePath}" width="1400" height="680"/></a>
-            </div>
-            <div th:if="${x.openType.toString().equals('CURRENT')}">
-                <a th:href="${x.url}"><img th:src="${'/resources/assets/' + x.imagePath}" width="1400" height="680"/></a>
-            </div>
+                <a th:if="${x.openType.toString().equals('NEW')}" th:href="${x.url}" rel ="noreferrer" target="_blank"><img th:src="${'/resources/assets/' + x.imagePath}" width="1400" height="680"/></a>
+                <a th:if="${x.openType.toString().equals('CURRENT')}" th:href="${x.url}"><img th:src="${'/resources/assets/' + x.imagePath}" width="1400" height="680"/></a>
         </div>
     </div>
 </body>
