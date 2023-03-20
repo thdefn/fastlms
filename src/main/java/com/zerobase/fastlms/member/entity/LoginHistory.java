@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -25,5 +26,6 @@ public class LoginHistory {
 
     private String userAgent;
 
-    private String userId;
+    @ManyToOne
+    private Member member;
 }

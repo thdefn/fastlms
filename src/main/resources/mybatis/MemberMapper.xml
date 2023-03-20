@@ -34,6 +34,13 @@
             resultType="com.zerobase.fastlms.admin.dto.MemberDto">
         select *
         from member
+        left outer join
+        (select *
+        from login_history
+        order by login_dt desc
+        limit 1)
+        lh
+        on member.user_id = lh.member_user_id
             <if test="searchType != null and searchValue != null">
                 <choose>
                     <when test="searchType == 'userId'">

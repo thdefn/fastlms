@@ -210,7 +210,7 @@ public class MemberServiceImpl implements MemberService {
         }
         int i = 0;
 
-        List<LoginHistory> histories = loginHistoryRepository.findByUserId(userId);
+        List<LoginHistory> histories = loginHistoryRepository.findByMember(optionalMember.get());
         List<LoginHistoryDto> historyDtos = new ArrayList<>();
 
         for (LoginHistory history: histories) {
@@ -224,12 +224,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void loginHistory(String userIp, String userAgent, String userId) {
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+
+        if(!optionalMember.isPresent()){
+            return;
+        }
+
         loginHistoryRepository.save(
                 LoginHistory.builder()
                         .userAgent(userAgent)
                         .userIp(userIp)
                         .loginDt(LocalDateTime.now())
-                        .userId(userId)
+                        .member(optionalMember.get())
                         .build()
         );
     }
